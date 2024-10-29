@@ -33,6 +33,8 @@ The workflow file contains the following steps:
 
 Contributions to improve this Docker image or workflow are welcome. Please submit a pull request with your changes.
 
-## License
+## License and Disclaimer
 
 This repository is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+**Disclaimer**: This Docker image is based on the [chef/chef](https://hub.docker.com/r/chef/chef) image, and as such, remains subject to the original Chef image's licensing terms. Please consult Chef's license terms and ensure compliance when using this image.
