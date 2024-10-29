@@ -2,7 +2,7 @@
 
 This repository provides a GitHub Action workflow to automatically build and publish a Docker image based on the latest [chef/chef](https://hub.docker.com/r/chef/chef) image. The resulting image is published to GitHub Container Registry at `ghcr.io/firefishy/chef-docker-image:latest`.
 
-This reposirory will be redundant when upstream issue https://github.com/chef/chef/issues/13907 has been resolved.
+This repository will be made redundant when upstream issue https://github.com/chef/chef/issues/13907 has been resolved.
 
 ## Repository Contents
 
