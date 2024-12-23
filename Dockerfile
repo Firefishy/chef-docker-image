@@ -1,1 +1,1 @@
-FROM docker.io/chef/chef:18.3
+FROM docker.io/chef/chef:18.2.46
