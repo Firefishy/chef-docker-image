@@ -41,4 +41,4 @@ RUN set -eux; \
 RUN ["/opt/chef/bin/chef-client", "--version"]
 RUN ["/opt/chef/bin/ruby", "--version"]
 
-VOLUME [/opt/chef]
+VOLUME ["/opt/chef"]
