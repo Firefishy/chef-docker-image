@@ -40,3 +40,5 @@ RUN set -eux; \
 # check chef-client and bundle ruby are functional
 RUN ["/opt/chef/bin/chef-client", "--version"]
 RUN ["/opt/chef/bin/ruby", "--version"]
+
+VOLUME [/opt/chef]
