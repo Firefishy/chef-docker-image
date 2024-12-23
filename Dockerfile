@@ -1,1 +1,1 @@
-FROM docker.io/chef/chef:latest
+FROM docker.io/chef/chef:18
