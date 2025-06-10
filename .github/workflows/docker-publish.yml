@@ -93,3 +93,13 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+      # Delete old container package versions
+      # https://github.com/actions/delete-package-versions
+      - uses: actions/delete-package-versions@v5
+        if: ${{ github.event_name != 'pull_request' }}
+        with:
+          package-name: ${{ github.event.repository.name }}
+          package-type: container
+          min-versions-to-keep: 10
+          delete-only-untagged-versions: true
