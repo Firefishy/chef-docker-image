@@ -11,9 +11,10 @@ ARG CHEF_PLATFORM
 ARG TARGETARCH
 
 # Install Chef
+# hadolint ignore=DL3008
 RUN set -eux; \
     apt-get update; \
-    apt-get install -y wget; \
+    apt-get install -y --no-install-recommends wget ca-certificates; \
     \
     # Map Docker's TARGETARCH to the Chef arch
     case "${TARGETARCH}" in \
@@ -29,8 +30,8 @@ RUN set -eux; \
     \
     # Download and install the .deb
     echo "Downloading Chef from $chef_url"; \
-    wget -O "/tmp/${chef_package}" "${chef_url}"; \
-    apt-get install -y "/tmp/${chef_package}"; \
+    wget -q -O "/tmp/${chef_package}" "${chef_url}"; \
+    apt-get install -y --no-install-recommends "/tmp/${chef_package}"; \
     \
     # Cleanup
     rm -f "/tmp/${chef_package}"; \
