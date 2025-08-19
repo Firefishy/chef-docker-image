@@ -39,7 +39,9 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*
 
 # check chef-client and bundle ruby are functional
+# hadolint ignore=DL3059
 RUN ["/opt/chef/bin/chef-client", "--version"]
+# hadolint ignore=DL3059
 RUN ["/opt/chef/bin/ruby", "--version"]
 
 VOLUME ["/opt/chef"]
