@@ -2,7 +2,7 @@ ARG OS_RELEASE="22.04"
 ARG CHEF_VERSION="18.8.11"
 ARG CHEF_PLATFORM="ubuntu"
 
-FROM ubuntu:${OS_RELEASE}
+FROM ${CHEF_PLATFORM}:${OS_RELEASE}
 
 # Re-declare build args so they are available in later stages
 ARG OS_RELEASE
@@ -24,13 +24,34 @@ RUN set -eux; \
       *) echo "Unsupported architecture: ${TARGETARCH}"; exit 1;; \
     esac; \
     \
+    # If using Debian 11, 12, or 13 and arm64, override to Ubuntu 22.04 for Chef package
+    # If using Debian 12 or 13 and amd64, use Debian 11 for Chef package
+    chef_platform="${CHEF_PLATFORM}"; \
+    os_release="${OS_RELEASE}"; \
+    if [ "$chef_platform" = "debian" ]; then \
+      if [ "$chef_arch" = "arm64" ]; then \
+        case "$os_release" in \
+          "11"|"12"|"13") \
+            chef_platform="ubuntu"; \
+            os_release="22.04"; \
+            echo "Switching to Ubuntu 22.04 for arm64 on Debian $os_release";; \
+        esac; \
+      elif [ "$chef_arch" = "amd64" ]; then \
+        case "$os_release" in \
+          "11"|"12"|"13") \
+            os_release="11"; \
+            echo "Switching to Debian 11 for amd64 on Debian $os_release";; \
+        esac; \
+      fi; \
+    fi; \
+    \
     # Build the Chef package name and download URL
     chef_package="chef_${CHEF_VERSION}-1_${chef_arch}.deb"; \
-    chef_url="https://packages.chef.io/files/stable/chef/${CHEF_VERSION}/${CHEF_PLATFORM}/${OS_RELEASE}/${chef_package}"; \
+    chef_url="https://packages.chef.io/files/stable/chef/${CHEF_VERSION}/${chef_platform}/${os_release}/${chef_package}"; \
     \
     # Download and install the .deb
     echo "Downloading Chef from $chef_url"; \
-    wget -q -O "/tmp/${chef_package}" "${chef_url}"; \
+    wget --no-verbose -O "/tmp/${chef_package}" "${chef_url}"; \
     apt-get install -y --no-install-recommends "/tmp/${chef_package}"; \
     \
     # Cleanup
